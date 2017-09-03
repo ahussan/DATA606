@@ -1,0 +1,147 @@
+---
+title: "Lab0"
+author: "anjal hussan"
+date: "9/3/2017"
+output: html_document
+---
+## R Markdown
+
+#lab 0
+
+```{r Load Source file}
+source("http://www.openintro.org/stat/data/arbuthnot.R")
+```
+
+```{R View file}
+#View(arbuthnot)
+#commented out this line because of getting an error when pressed Knit
+```
+
+```{R dimensions of this data frame }
+dim(arbuthnot)
+```
+
+```{R names of these columns}
+names(arbuthnot)
+```
+
+```{R access the data in a single column}
+arbuthnot$boys
+```
+
+## Exercise: 1
+## What command would you use to extract just the counts of girls baptized?
+```{R counts of girls baptized}
+arbuthnot$girls
+```
+
+```{R simple plot of the number of girls baptized per year}
+plot(x=arbuthnot$year, y=arbuthnot$girls)
+```
+
+```{R connect the data points with lines}
+plot(x=arbuthnot$year, y=arbuthnot$girls, type = "l")
+```
+
+## Exercise: 2
+## Is there an apparent trend in the number of girls baptized over the years? How would you describe it?
+
+## Ans:Yes. There is an increasing trend in the number of girls baptized over the years. From 1640 to 1650, the trend was decreasing significantly. Starting from 1658, the trend starting increasing.
+
+
+```{R find help menu for Plot}
+?plot #help about plot
+```
+
+```{R Use R as big calculator}
+5218 + 4683
+```
+
+```{R sums for boys and girls}
+arbuthnot$boys + arbuthnot$girls
+```
+
+```{R plot of the total number of baptisms per year}
+plot(arbuthnot$year, arbuthnot$boys + arbuthnot$girls)
+```
+
+```{R #compute the ratio}
+5218/4683
+```
+
+```{R Ration of boys and girsl}
+arbuthnot$boys / arbuthnot$girls
+```
+
+```{R The proportion of newborns that are boys}
+5218 / (5218 + 4683)
+```
+
+```{R The proportion of newborns that are boys for all years}
+arbuthnot$boys / (arbuthnot$boys + arbuthnot$girls)
+```
+
+## Exercise: 3
+## Make a plot of the proportion of boys over time. What do you see? 
+```{R Proportion of boys over time}
+plot(x = arbuthnot$year, y = arbuthnot$boys, type = "l")
+```
+
+
+```{R comparisons}
+arbuthnot$boys > arbuthnot$girls
+```
+## On your own section:
+
+```{R Load Present.R file}
+source("http://www.openintro.org/stat/data/present.R")
+```
+
+#What years are included in this data set? What are the dimensions of the data frame and what are the variable or column names?
+
+```{R Range of years}
+range(present$year)
+```
+
+```{R Dimensions of the data frame}
+dim(present)
+```
+
+```{R Name of the variables}
+names(present)
+```
+
+
+##How do these counts compare to Arbuthnot's? Are they on a similar scale?
+```{R}
+range(present$boys + present$girls) 
+  - range(arbuthnot$boys + arbuthnot$girls)
+```
+Present Data count is low.
+
+##Make a plot that displays the boy-to-girl ratio for every year in the data set. What do you see? Does Arbuthnot's observation about boys being born in greater proportion than girls hold up in the U.S.? Include the plot in your response.
+
+Plot of Boy-to-Girl Ratio for every year
+
+```{R boy-to-girl ratio for every year}
+plot(x = present$year, y = present$boys/present$girls, type = "l", main = "Ratio of Boy-to-Girl Birthrates in the USA Between 1940 to 2002" ,xlab = "Year", ylab = "boy-to-girl ratio")
+```
+
+#Range Ratio in "Present" data set
+
+```{R Range Ratio in "Present" Data set}
+range(present$boys/present$girls)
+```
+
+#Range Ratio in Arbuthnot's data set
+
+```{R Range Ratio in Arbuthnot Data set}
+range(arbuthnot$boys/arbuthnot$girls)
+```
+# In what year did we see the most total number of births in the U.S.?
+```{R Most total number of birth in the U.S.}
+present$year[present$boys + present$girls == max(present$boys+present$girls)]
+```
+
+
+# End of file
