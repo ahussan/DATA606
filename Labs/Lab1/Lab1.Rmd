@@ -1,0 +1,340 @@
+---
+title: "lab1"
+author: "anjal hussan"
+date: "9/4/2017"
+output: html_document
+---
+
+## R Markdown
+
+```{R load-data, eval=TRUE}
+source("http://www.openintro.org/stat/data/cdc.R")
+```
+
+```{r names, eval=TRUE}
+names(cdc)
+```
+
+#Exercise 1:
+##How many cases are there in this data set?  How many variables?  For each variable, identify its data type (e.g. categorical, discrete).
+##Ans: 
+## Total number of Cases:
+```{R Total number of Cases}
+nrow(cdc)
+```
+
+##Number of variables
+```{R Number of variables}
+ncol(cdc)
+```
+
+##Data type:
+```{R Data Type}
+str(cdc)
+```
+
+#Data Type:
+genhlth : Categorical
+exerany : Discrete
+hlthplan: Discrete
+smoke100: Discrete
+height : Numerical + categorical
+weight : Numerical+categorical
+wtdesire: Numerical+ categorical
+age : Numerical+ categorical
+gender : Categorical
+
+```{r head, eval=TRUE}
+head(cdc)
+```
+
+
+```{r tail, eval=TRUE}
+tail(cdc)
+```
+
+
+```{r summary-weight, eval=TRUE}
+summary(cdc$weight)
+```
+
+```{r weight-range-arith, eval=TRUE}
+190 - 140
+```
+
+```{r weight-mean-var-median, eval=TRUE}
+mean(cdc$weight) 
+var(cdc$weight)
+median(cdc$weight)
+```
+###Total number of times each kind of response
+```{r table-smoke, eval=TRUE}
+table(cdc$smoke100)
+```
+
+###Relative frequency distribution
+```{r table-smoke-prop, eval=TRUE}
+table(cdc$smoke100)/20000
+```
+
+```{r table-smoke-barplot, eval=TRUE}
+barplot(table(cdc$smoke100))
+```
+
+
+
+```{r table-smoke-barplot-twosteps, eval=TRUE}
+smoke <- table(cdc$smoke100)
+
+barplot(smoke)
+```
+
+#Exercise 2:
+#Create a numerical summary for height and age, and compute the interquartile range for each. Compute the relative frequency distribution for gender and exerany. How many males are in the sample? What proportion of the sample reports being in excellent health?
+
+##summary for height
+```{R summary for height}
+summary(cdc$height)
+```
+##summary for age
+```{R summary for age}
+summary(cdc$age)
+```
+
+##Interquartile range for Height
+```{R interquartile range for height}
+IQR(cdc$height)
+```
+
+##Interquartile range for age
+```{R interquartile range for age}
+IQR(cdc$age)
+```
+
+
+##Relative frequency distribution for gender
+```{R Relative frequency distribution for gender}
+table(cdc$gender) / 20000
+```
+
+
+##Relative frequency distribution for exerany
+```{R Relative frequency distribution for exerany}
+table(cdc$exerany) /20000
+```
+##Number of Male in the sample
+```{R Number of male in the sample}
+table(cdc$gender, exclude = 'f')
+```
+##What proportion of the sample reports being in excellent health?
+```{R number of male with Excellent Health}
+male_exc <- subset(cdc, cdc$gender=="m" & cdc$genhlth=="excellent")
+table(male_exc$gender, exclude = 'f')
+```
+
+```{r table-smoke-gender, eval=TRUE}
+table(cdc$gender,cdc$smoke100)
+```
+
+
+```{r mosaic-smoke-gender, eval=TRUE}
+mosaicplot(table(cdc$gender,cdc$smoke100))
+```
+
+##Exercise: 3
+##What does the mosaic plot reveal about smoking habits and gender?
+
+We can see that more males than females reported having smoked 100 cigarettes in their lifetime.
+
+##
+```{r dim, eval=TRUE}
+dim(cdc)
+```
+
+
+```{r cdc-row567-column6, eval=TRUE}
+cdc[567,6]
+```
+
+```{r names-again, eval=TRUE}
+names(cdc)
+```
+
+
+```{r first-10-rows-sixth-column, eval=TRUE}
+cdc[1:10,6]
+```
+
+```{r numbers-1to10, eval=TRUE}
+1:10
+```
+
+
+```{r first-10-rows, eval=TRUE}
+cdc[1:10,]
+```
+
+```{r 6th-column, eval=TRUE}
+cdc[,6]
+```
+
+```{r weight, eval=TRUE}
+cdc$weight
+```
+
+```{r weight-567, eval=TRUE}
+cdc$weight[567]
+```
+
+```{r weight-first10, eval=TRUE}
+cdc$weight[1:10]
+```
+
+```{r true-male, eval=TRUE}
+cdc$gender == "m"
+```
+
+```{r males, eval=TRUE}
+mdata <- subset(cdc, cdc$gender == "m")
+```
+
+```{r head-males, eval=TRUE}
+head(mdata)
+```
+
+```{r males-and-over30, eval=TRUE}
+m_and_over30 <- subset(cdc, gender == "m" & age > 30)
+```
+
+#Exercise: 3.
+##Create a new object called 'under23_and_smoke' that contains all observations of respondents under the age of 23 that have smoked 100 cigarettes in their lifetime. Write the command you used to create the new object as the answer to this exercise.
+
+```{R under 23 and smoked}
+under23_and_smoke <- subset(cdc, cdc$age<23 & cdc$smoke100==TRUE)
+nrow(under23_and_smoke)
+```
+
+## BoxPlot
+```{r boxplot-height, eval=TRUE}
+boxplot(cdc$height)
+```
+
+
+```{r summary-height, eval=TRUE}
+summary(cdc$height)
+```
+
+```{r boxplot-height-gender, eval=TRUE}
+boxplot(cdc$height ~ cdc$gender)
+```
+
+```{r boxplot-bmi, eval=TRUE}
+bmi <- (cdc$weight / cdc$height^2) * 703
+boxplot(bmi ~ cdc$genhlth)
+```
+
+##Exercise: 4
+## What does this box plot show? Pick another categorical variable from the data set and see how it relates to BMI. List the variable you chose, why you might think it would have a relationship to BMI, and indicate what the figure seems to suggest. 
+```{r boxplot-bmi exercise 4, eval=TRUE}
+bmi <- (cdc$weight / cdc$height^2) * 703
+boxplot(bmi ~ cdc$genhlth)
+```
+We can see that bmi is inversely correlated with reported health condition.
+
+bmi should be negatively correlated with exerany.
+
+```{r negative corelation between bmi and Exerany}
+boxplot(bmi ~ cdc$exerany)
+```
+
+##Histograms
+
+
+```{r hist-age, eval=TRUE}
+hist(cdc$age)
+```
+
+```{r hist-bmi, eval=TRUE}
+hist(bmi)
+hist(bmi, breaks = 50)
+```
+
+#On Your Own Section
+
+## Make a scatterplot of weight versus desired weight. Describe the relationship between these two variables.
+```{R scatterplot}
+plot(cdc$weight ~ cdc$wtdesire)
+```
+
+
+##Let's consider a new variable: the difference between desired weight ('wtdesire') and current weight ('weight). Create this new variable by subtracting the two columns in the data frame and assigning them to a new object called 'wdiff'
+```{R wdiff}
+wdiff <- cdc$wtdesire-cdc$weight
+```
+
+
+##What type of data is 'wdiff'? If an observation 'wdiff' is 0, what does this mean about the person's weight and desired weight. What if 'wdiff' is positive or negative?
+
+wdiff is a Numerical (discrete) variable. If wdiff is 0, then the person is at their desired weight. If wdiff is negative, then the person wants to lose. If wdiff is positive then the person wants to gain weight
+
+##Describe the distribution of 'wdiff' in terms of its center, shape, and spread, including any plots you use. What does this tell us about how people feel about their current weight?
+
+```{R}
+summary(wdiff)
+```
+
+
+```{R box}
+boxplot(wdiff)
+```
+
+
+```{R, hist}
+hist(wdiff)
+```
+
+
+```{R, hist 10}
+hist(wdiff, breaks = 100)
+```
+Majority of the people are close to their ideal wieght. Since Mean is -14.59, the average amount of weight people want to lose is ~14.5
+
+
+#Using numerical summaries and a side-by-side box plot, determine if men tend to view their weight differently than women.
+
+```{R male}
+malewdiff <- subset(cdc, gender == "m", select = c(wtdesire, weight))
+summary(malewdiff)
+```
+```{R female}
+femalewdiff <- subset(cdc, gender == "f", select = c(wtdesire, weight))
+summary(femalewdiff)
+```
+
+```{R}
+boxplot(wdiff ~ cdc$gender)
+```
+
+From the tables and graphs, it's can be concluded that men are closer to their ideal weight, while women prefer to lose more weight.
+
+## Find the mean and standard deviation of weight` and determine what proportion of the weights are within one standard deviation of the mean.
+
+##Mean
+```{R}
+meanweight <- mean(cdc$weight)
+print(meanweight)
+```
+##Standard Deviation
+```{R, SD}
+sdweight <- sd(cdc$weight)
+print(sdweight)
+```
+##In One Sd of Mean and proportion
+```{R In one std of mean}
+inOnestd = subset(cdc, (cdc$weight < (meanweight + sdweight)) & (cdc$weight > (meanweight - sdweight)))
+proportion = dim(inOnestd)[1]/dim(cdc)[1]
+print(proportion)
+```
+
+
+##End of file
