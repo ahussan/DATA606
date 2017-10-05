@@ -1,0 +1,253 @@
+---
+title: "HW3"
+author: "anjal hussan"
+date: "09/30/2017"
+output: html_document
+---
+
+###3.2 Area under the curve, Part II.
+####What percent of a standard normal distributionN(μ=0 , σ=1) is found in each region? Be sure to draw a graph.
+####a:
+Z = − 1.13
+
+```{R normalpolt}
+x=seq(-3,3,length=500)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(-1.13,3,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(-1.13,x,3),c(0,y,0),col="grey")
+```
+
+```{R -a}
+1-pnorm(-1.13)
+```
+
+####b:
+```{R normalpolt b}
+x=seq(-3,3,length=500)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(-3,0.18,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(-3,x,.18),c(0,y,0),col="grey")
+```
+
+```{R -b}
+pnorm(0.18)
+```
+
+
+####c:
+```{R normalpolt c}
+x=seq(-3,10,length=500)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(8,10,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(8,x,10),c(0,y,0),col="grey")
+```
+
+```{R -c}
+pnorm(8)
+```
+
+####d:
+```{R normalpolt d}
+x=seq(-3,3,length=500)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(-0.5, 0.5, length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(-.5,x,.5),c(0,y,0),col="grey")
+```
+
+
+```{R -d}
+pnorm(.5)
+```
+
+
+###3.4 Triathlon times, Part I
+
+In triathlons, it is common for racers to be placed into age and gender groups. Friends Leo and Mary both completed the Hermosa Beach Triathlon, where Leo competed in the Men, Ages 30 - 34 group while Mary competed in the Women, Ages 25 -29 group. Leo completed the race in 1:22:28 (4948 seconds), while Mary completed the race in 1:31:53 (5513 seconds). Obviously Leo finished faster, but they are curious about how they did within their respective groups. Can you help them?
+
+####a: Write down the short-hand for these two normal distributions.
+
+Men’s group, age 30-34 μ=4313s, σ=583s
+Women’s group, age 25-29 μ=5216s, σ=807s
+
+
+####b: What are the Z-scores for Leo’s and Mary’s finishing times? What do these Z-scores tell you?
+
+Leo's Z Score =
+
+```{R leo z score}
+(4948-4313)/583
+```
+
+Mary's Z Score =
+
+```{R Mary z score}
+(5513-5216)/807
+```
+
+Leo scored 1.09 standard deviations above the mean, 
+while Mary scored 0.31 standard deviations above the mean, 
+each in their respective groups.
+
+####c:Did Leo or Mary rank better in their respective groups? Explain your reasoning.
+
+The lower the time the better you did. Since Mary’s z-score is smaller, it mean’s she finished closer to the mean of her group, so she did better in her respective group.
+
+####d: What percent of the triathletes did Leo finish faster than in his group?
+```{R leo pnorm}
+1- pnorm(1.089194) 
+```
+
+
+```{R seq b}
+x=seq(-10,10,length=500)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(0.18,5,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(0.1380342,x,Inf),c(0,y,0),col="grey")
+```
+
+####e: What percent of the triathletes did Mary finish faster than in her group?
+```{R mary pnorm}
+1- pnorm(0.3680297) 
+```
+```{R b}
+x=seq(-10,10,length=500)
+y=dnorm(x,mean=0,sd=1)
+plot(x,y,type="l")
+x=seq(0.3680297,5,length=100)
+y=dnorm(x,mean=0,sd=1)
+polygon(c(0.3564255,x,Inf),c(0,y,0),col="grey")
+```
+
+
+###3.18 Heights of female college students.
+```{R femaleheight}
+femaleheight <- c(54,55,56,56,57,58,58,59,60,60,60,61,61,62,62,63,63,63,64,65,65,67,67,69,73)
+femaleheight
+```
+####a: The mean height is 61.52 inches with a standard deviation of 4.58 inches. Use this information to determine if the heights approximately follow the 68-95-99.7% Rule.
+
+```{R mean sd}
+fhMean <- mean(femaleheight)
+fhSd <- sd(femaleheight)
+```
+
+#### for 68%:
+```{R 68%}
+x1 <- fhMean - fhSd
+x2 <- fhMean + fhSd
+v1 <- pnorm(x2,fhMean,fhSd) - pnorm(x1,fhMean,fhSd)
+v1
+```
+
+
+#### for 95%:
+```{R 95%}
+x1 <- fhMean - 2*fhSd
+x2 <- fhMean + 2*fhSd
+v1 <- pnorm(x2,fhMean,fhSd) - pnorm(x1,fhMean,fhSd)
+v1
+```
+
+#### for 99.7%:
+```{R 99.7%}
+x1 <- fhMean - 3*fhSd
+x2 <- fhMean + 3*fhSd
+v1 <- pnorm(x2,fhMean,fhSd) - pnorm(x1,fhMean,fhSd)
+v1
+```
+We can see that the 68-95-99.7 rule is almost perfectly.
+
+###3.22 Defective rate.
+A machine that produces a special type of transistor (a component of computers) has a 2% defective rate. The production is considered a random process where each transistor is independent of the others.
+####a: What is the probability that the 10th transistor produced is the first with a defect?
+```{R defective rate}
+n = 10
+p= 0.02
+q = 0.98
+prb = (q^(n-1)*p)
+prb
+```
+
+Ans: 1.667496%
+
+####b: What is the probability that the machine produces no defective transistors in a batch of 100?
+
+```{R no defect}
+n = 100
+p= 0.02
+q = 0.98
+prb = (q^(n))
+prb
+```
+Ans: 13.26196% chance of no defective transistors
+
+####c: On average, how many transistors would you expect to be produced before the first with a defect? What is the standard deviation?
+
+σ=√(q/p^2)
+=√(0.98/0.022)
+=49.497
+
+####d: Another machine that also produces transistors has a 5% defective rate where each transistor is produced independent of the others. On average how many transistors would you expect to be produced with this machine before the first with a defect? What is the standard deviation?
+
+σ=√(q/p^2)
+=√(0.95/0.052)
+=19.494
+
+####e: Based on your answers to parts (c) and (d), how does increasing the probability of an event affect the mean and standard deviation of the wait time until success?
+Both the mean, μ, and standard deviation, σ decrease as probabilty increases.
+
+
+###3.38 Male children.
+
+While it is often assumed that the probabilities of having a boy or a girl are the same, the actual probability of having a boy is slightly higher at 0.51. Suppose a couple plans to have 3 kids.
+
+####a. Use the binomial model to calculate the probability that two of them will be boys.
+```{R dbinom}
+dbinom(2,3,0.51)
+```
+####b:Write out all possible orderings of 3 children, 2 of whom are boys. Use these scenarios to calculate the same probability from part (a) but using the addition rule for disjoint outcomes. Confirm that your answers from parts (a) and (b) match.
+
+P({f,m,m}or{m,f,m}or{m,m,f}) 
+=P({f,m,m})+P({m,f,m})+P({m,m,f})
+=(0.49∗0.51∗0.51)+(0.51∗0.49∗0.51)+(0.51∗0.51∗0.49)
+=0.382347
+
+####c: If we wanted to calculate the probability that a couple who plans to have 8 kids will have 3 boys, briefly describe why the approach from part (b) would be more tedious than the approach from part (a).
+
+There are 8!/(8−3)!=336 permutations in this case. 
+
+```{R dbinom 8 kid}
+dbinom(3,8,0.51)
+```
+
+###3.42 Serving in volleyball.
+A not-so-skilled volleyball player hasa 15% chance of making the serve, which involves hitting the ball so it passes over the net on a trajectory such that it will land in the opposing team’s court. Suppose that her serves are independent of each other.
+
+####a: What is the probability that on the 10th try she will make her 3rd successful serve?
+```{R serve}
+n = 10
+k = 3
+p= 0.15
+q = 0.85
+prb = (factorial(n-1)/(factorial(k-1)*factorial(n-k))*p^k*q^(n-k))
+prb
+```
+
+she has 3.895012% chance
+
+####b: Suppose she has made two successful serves in nine attempts. What is the probability that her 10th serve will be successful?
+Since the serves are independant, the probability of her 10th serve will be successful is 15%
+
+####============= End of file =================
+
+

@@ -1,0 +1,219 @@
+---
+title: "Lab3"
+author: "anjal hussan"
+date: "09/30/2017"
+output: html_document
+---
+
+```{r setup}
+download.file("http://www.openintro.org/stat/data/bdims.RData", destfile = "bdims.RData")
+load("bdims.RData")
+```
+
+First Few rows of data
+
+```{r head}
+head(bdims)
+```
+
+Two additional data set for male and female:
+
+```{r additionalset}
+mdims <- subset(bdims, sex == 1)
+fdims <- subset(bdims, sex == 0)
+```
+
+find additional data point of women heights:
+```{R women_mean}
+fhgtmean <- mean(fdims$hgt)
+fhgtsd   <- sd(fdims$hgt)
+```
+
+###Exercise:1
+Make a histogram of men’s heights and a histogram of women’s heights. How would you compare the various aspects of the two distributions?
+
+#####Male Histogram
+```{R malehistogram}
+hist(mdims$hgt, main="Male height", xlab="cm", ylim = c(0, 80))
+```
+
+#####Female Histogram
+```{R femalehistogram}
+hist(fdims$hgt, main="Female height", xlab="cm", ylim = c(0, 80))
+```
+
+##The normal distribution
+
+####draw histogram for woment heights
+```{R historgram_women_height}
+hist(fdims$hgt, probability = TRUE)
+x <- 140:190
+y <- dnorm(x = x, mean = fhgtmean, sd = fhgtsd)
+lines(x = x, y = y, col = "blue")
+```
+
+
+
+###Exercise: 2
+####Based on the this plot, does it appear that the data follow a nearly normal distribution?
+ans: Yes, it looks like the data follows a nearly normal distribution.
+
+
+##Evaluating the normal distribution
+Eyeballing the shape of the histogram is one way to determine if the data appear to be nearly normally distributed, but it can be frustrating to decide just how close the histogram is to the curve. An alternative approach involves constructing a normal probability plot, also called a normal Q-Q plot for “quantile-quantile”.
+
+```{R Q-Q}
+qqnorm(fdims$hgt)
+qqline(fdims$hgt)
+```
+
+A data set that is nearly normal will result in a probability plot where the points closely follow the line. Any deviations from normality leads to deviations of these points from the line. The plot for female heights shows points that tend to follow the line but with some errant points towards the tails. We’re left with the same problem that we encountered with the histogram above: how close is close enough?
+
+A useful way to address this question is to rephrase it as: what do probability plots look like for data that I know came from a normal distribution? We can answer this by simulating data from a normal distribution using rnorm.
+
+```{R simu}
+sim_norm <- rnorm(n = length(fdims$hgt), mean = fhgtmean, sd = fhgtsd)
+```
+
+The first argument indicates how many numbers you’d like to generate, which we specify to be the same number of heights in the fdims data set using the length function. The last two arguments determine the mean and standard deviation of the normal distribution from which the simulated sample will be generated. We can take a look at the shape of our simulated data set, sim_norm, as well as its normal probability plot.
+
+
+##Exercise:3
+####Make a normal probability plot of sim_norm. Do all of the points fall on the line? How does this plot compare to the probability plot for the real data?
+
+ans: The points are close to the line. The plot is close to the real data.
+
+
+```{R qqnormhgt}
+qqnormsim(fdims$hgt)
+```
+
+##Exercise 4:
+####Does the normal probability plot for fdims$hgt look similar to the plots created for the simulated data? That is, do plots provide evidence that the female heights are nearly normal?
+
+```{R fmh}
+qqnorm(fdims$hgt)
+qqline(fdims$hgt)
+```
+
+These plots all look very similar. There are some variations along the y-axis but not as off as to think that the distributions are not normal.
+
+##Exercise:5
+####Using the same technique, determine whether or not female weights appear to come from a normal distribution.
+```{R fwgt}
+fwgtmean <- mean(fdims$wgt)
+fwgtsd   <- sd(fdims$wgt)
+hist(fdims$wgt, main = "Histogram: Female Weight", xlab = "Female Weight")
+x <- 40:90
+y <- dnorm(x = x, mean = fwgtmean, sd = fwgtsd)
+lines(x = x, y = y, col = "blue")
+```
+
+```{R qqnorm}
+qqnorm(fdims$wgt)
+qqline(fdims$wgt)
+```
+
+```{R qqnormsim}
+qqnormsim(fdims$wgt)
+```
+
+The distribution for weight is right skewed with some outliers in the > 100 kg range and the QQ plot for the real data diverges from the line.
+
+##Normal probabilities
+It turns out that statisticians know a lot about the normal distribution. Once we decide that a random variable is approximately normal, we can answer all sorts of questions about that variable related to probability. Take, for example, the question of, “What is the probability that a randomly chosen young adult female is taller than 6 feet (about 182 cm)?” (The study that published this data set is clear to point out that the sample was not random and therefore inference to a general population is not suggested. We do so here only as an exercise.)
+
+If we assume that female heights are normally distributed (a very close approximation is also okay), we can find this probability by calculating a Z score and consulting a Z table (also called a normal probability table). In R, this is done in one step with the function pnorm.
+
+```{R pnorm}
+1 - pnorm(q = 182, mean = fhgtmean, sd = fhgtsd)
+```
+
+Note that the function pnorm gives the area under the normal curve below a given value, q, with a given mean and standard deviation. Since we’re interested in the probability that someone is taller than 182 cm, we have to take one minus that probability.
+
+Assuming a normal distribution has allowed us to calculate a theoretical probability. If we want to calculate the probability empirically, we simply need to determine how many observations fall above 182 then divide this number by the total sample size.
+
+
+```{R sum}
+sum(fdims$hgt > 182) / length(fdims$hgt)
+```
+
+Although the probabilities are not exactly the same, they are reasonably close. The closer that your distribution is to being normal, the more accurate the theoretical probabilities will be.
+
+##Exercise 6:
+
+Write out two probability questions that you would like to answer; one regarding female heights and one regarding female weights. Calculate the those probabilities using both the theoretical normal distribution as well as the empirical distribution (four probabilities in all). Which variable, height or weight, had a closer agreement between the two methods?
+
+####Q: What is the probabilty a female is bewteen 130 cm and 140 cm?
+```{R femaleprobability}
+pnorm(q = 140, mean = fhgtmean, sd = fhgtsd) - pnorm(q = 130, mean = fhgtmean, sd = fhgtsd)
+```
+
+####Q: Whats the probability that a female is weights less that 75kg?
+#####Theoretical
+```{R Theoretical}
+pnorm(q=75,mean=fwgtmean,sd=fwgtsd)
+```
+######Empirical
+```{R Empirical}
+sum(fdims$wgt < 75) / length(fdims$wgt)
+```
+
+##On Your Own
+
+1: Now let’s consider some of the other variables in the body dimensions data set. Using the figures at the end of the exercises, match the histogram to its normal probability plot. All of the variables have been standardized (first subtract the mean, then divide by the standard deviation), so the units won’t be of any help. If you are uncertain based on these figures, generate the plots in R to check.
+
+a: The histogram for female biiliac (pelvic) diameter (“bii.di”) belongs to normal probability plot letter 
+```{R histfdims}
+hist(fdims$bii.di,xlab = "Female Pelvic diameter", main = "Histogram of Female Pelvic Diameter")
+```
+
+
+```{R plots}
+qqnorm(fdims$bii.di)
+qqline(fdims$bii.di)
+```
+
+```{R hist-elbo}
+hist(bdims$elb.di,xlab = "Female elbow diameter", main = "Histogram of Female Elbow Diameter")
+```
+
+```{R elbo}
+qqnorm(fdims$elb.di)
+qqline(fdims$elb.di)
+```
+
+```{R age}
+hist(bdims$age, xlab = "Age in years", main = "Histogram of Sample Age in Years")
+```
+
+```{R qnormage}
+qqnorm(bdims$age)
+qqline(bdims$age)
+```
+
+d. The histogram for female chest depth (che.de) belongs to normal probability plot letter 
+
+```{R histo chest}
+hist(fdims$che.de,xlab = "Female chest diameter", main = "Histogram of Female Chest Diameter")
+```
+
+```{R qqnorm chest}
+qqnorm(fdims$che.de)
+qqline(fdims$che.de)
+```
+
+```{R knee}
+qqnorm(fdims$kne.di)
+qqline(fdims$kne.di)
+```
+This plot diverges on the right side like age and chest diameter, both of which are right skewed. 
+
+
+```{R femaleknee}
+hist(fdims$kne.di, xlab = "Female knee diameter in cm", main = "Histogram of Female Knee Diameter")
+```
+Female Knee Diameter is right skewed
+
+
+####============ End of file =================
