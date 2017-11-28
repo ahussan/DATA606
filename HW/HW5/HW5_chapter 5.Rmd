@@ -1,0 +1,118 @@
+---
+title: "HW 5"
+author: "anjal hussan"
+date: "11/27/2017"
+output: html_document
+---
+##5.6
+```{R 5.6}
+pop1 <- 65
+pop2 <- 77
+n <- 25
+samplemean <- (pop1+pop2)/2
+cat("Sample Mean is = ", samplemean, "\n")
+
+MarginError <- (pop2-pop1)/2
+cat("Margin of error = ", MarginError, "\n")
+
+df <- 25-1
+t <- qt(.95, df)
+
+sd <- (MarginError/t)*5
+cat("Sample Standard Deviation = ", sd, "\n")
+
+
+
+```
+
+##5.14
+###a)
+```{R 5.14a}
+z <- 1.65 #90% CI
+me <- 25
+sd <- 250
+raina <- round(((z*sd)/me)^2, 0)
+cat("Raina should collect a sample size of = ", raina, "\n")
+```
+
+###b)
+Luke’s sample size should be larger, with a 99% confidence interval since his `z` score will be larger and that will make the result of multiplying by the SD larger.
+
+###c)
+```{R luka}
+z <- 2.58 #99% CI
+me <- 25
+sd <- 250
+luka <- round(((z*sd)/me)^2,0)
+cat ("Minimum required sample size for luka is = ", luka, "\n")
+```
+
+##5.20
+####a)
+There does not seem to be a clear difference in the average reading and writing scores
+
+####b)
+The reading and writing scores of each student are independent of each other
+
+####c)
+H0:μ(reading) − μ(writing) = 0
+
+HA:μ(reading) − μ(writing) ≠ 0
+
+####d)
+The obersvations are independent and the distrubtion is normal with no skew.
+
+####e)
+```{R 5.20E}
+mu <- -.545
+df <- n-1
+SD <- 8.887
+n <- 200
+
+SE <- SD/sqrt(n)
+
+t <- (mu-0)/SE
+
+p <- pt(t, df)
+cat (p)
+```
+The p-value is greater than 0.05 so we cannot to reject the null hypothesis. There is no convincing evidence that of a difference between the average reading and writing exam scores.
+
+####f)
+We might have made a Type II error in rejecting the alternative hypothesis and wrongly concluded that there is no a difference in the average reading and writing scores.
+
+####g)
+Conclusion: There is no difference we would expect 0 to be in our confidence interval.
+
+##5.32
+H0:μOfAuto−μOfmanual = 0
+
+HA:μOfAuto−μOfmanual ≠ 0
+
+```{R AutoManual}
+n <- 26
+
+SDauto <- 3.58
+SDmanual <- 4.51
+
+mdiff <- 16.12 - 19.85
+
+SEauto <- SDauto/sqrt(n) 
+SEmanual <- SDmanual/sqrt(n)
+
+SE <- sqrt(((SEauto)^2)+(SEmanual)^2)
+T <- (mdiff-0)/SE
+p <- pt(T, n-1)
+p <- 2*p 
+cat(p)
+```
+The p-value is less than 0.05 so we can reject the null hypothesis. There is convincing evidence that the difference in the average city MPG of automatic and manual vehicles.
+
+##5.48
+####a)
+
+H0:μlessHS=μHS=μjrcol=μBach=μGrad
+
+HA:AtLeastOneMeanIsNotEqual
+
+####End of this file
