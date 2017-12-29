@@ -1,0 +1,60 @@
+---
+title: "HW8"
+author: "anjal hussan"
+date: "12/15/2017"
+output: html_document
+---
+##8.2 Baby weights, Part II.
+Exercise 8.1 introduces a data set on birth weight of babies. Another variable we consider is parity, which is 0 if the child is the first born, and 1 otherwise. The summary table below shows the results of a linear regression model for predicting the average birth weight of babies, measured in ounces, from parity.
+
+a. Write the equation of the regression line.
+
+Ans: weight=120.07−1.97∗p
+
+b. Interpret the slope in this context, and calculate the predicted birth weight of first borns and others.
+
+Ans: The slope indicates that a baby with parity of 0 will be weight of 120.07 oz. A baby with parity of 1 will have a birth weight of 118.1 oz.
+
+##8.4 Absenteeism.
+Researchers interested in the relationship between absenteeism from school and certain demographic characteristics of children collected data from 146 randomly sampled sch- dents in rural New South Wales, Australia, in a particular school year. Below are three observations from this data set.
+
+The summary table below shows the results of a linear regression model for predicting the average number of days absent based on ethnic background (eth: 0 - aboriginal, 1 - not aboriginal), sex (sex: 0 - female, 1 - male), and learner status (lrn: 0 - average learner, 1 - slow learner).
+
+a. Write the equation of the regression line.
+
+Ans: abs=18.93−9.11eth+3.1sex+2.15lrn
+
+b. Interpret each one of the slopes in this context.
+
+Ans:
+not aboriginal students miss 9.11 fewer days on average. Male students miss 3.10 days more on average. Slow learners miss 2.15 more days on average.
+
+##8.8 Absenteeism, Part II.
+Exercise 8.4 considers a model that predicts the number of days absent using three predictors: ethnic background (eth), gender (sex), and learner status (lrn). The table below shows the adjusted R-squared for the model as well as adjusted R-squared values for all models we evaluate in the first step of the backwards elimination process.
+
+Model	Adjusted  R2R2
+Full model	    0.0701
+No ethnicity	  -0.0033
+No sex	        0.0676
+No learner status	0.0723
+Which, if any, variable should be removed from the model first?
+
+Ans: 
+learner status should be removed first because adjusted R^2 improves when learner status is removed
+
+##8.16 Challenger disaster, Part I.
+On January 28, 1986, a routine launch was anticipated for the Challenger space shuttle. Seventy-three seconds into the flight, disaster happened: the shuttle broke apart, killing all seven crew members on board. An investigation into the cause of the disaster focused on a critical seal called an O-ring, and it is believed that damage to these O-rings during a shuttle launch may be related to the ambient temperature during the launch. The table below summarizes observational data on O-rings for 23 shuttle missions, where the mission order is based on the temperature at the time of the launch. Temp gives the temperature in Fahrenheit, Damaged represents the number of damaged O-rings, and Undamaged represents the number of O-rings that were not damaged.
+
+a.Each column of the table above represents a different shuttle mission. Examine these data and describe what you observe with respect to the relationship between temperatures and damaged O-rings.
+
+Ans:
+8 damaged o-rings at temperature ≤63 F and 3 damaged o-rings above that temperature, therefore, low temperatures contribute to o-ring damage.
+
+b. Failures have been coded as 1 for a damaged O-ring and 0 for an undamaged O-ring, and a logistic regression model was fit to these data. A summary of this model is given below. Describe the key components of this summary table in words.
+
+Ans: 
+The intercept means that there are the ratio of probabilities of damaged to undamaged o-rings is e11.6630e11.6630 when T = 0ooF.
+
+The slope mean that for every 100F above zero, the probability of damaged o-rings decreases by 0.2162 in the exponential term.
+
+####End of this file
